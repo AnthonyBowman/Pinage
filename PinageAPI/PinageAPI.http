@@ -1,0 +1,6 @@
+@PinageAPI_HostAddress = http://localhost:5110
+
+GET {{PinageAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
