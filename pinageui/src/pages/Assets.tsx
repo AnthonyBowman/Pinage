@@ -2,12 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Plus, RefreshCw, Upload, MoreVertical, Film, Image, FileText, Clock, PlayCircle } from 'lucide-react';
 import { assetsApi } from '../services/assetsApi';
 import { Asset } from '../types/assets';
+import UploadModal from './UploadModal';  // Adjust the path based on your file structure
+import PreviewModal from './PreviewModal';  // Adjust the import path as needed
 
 const Assets: React.FC = () => {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('all');
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+
+  const handlePreviewClick = (asset: Asset) => {
+    setSelectedAsset(asset);
+    setShowPreviewModal(true);
+  };
 
   const fetchAssets = async () => {
     try {
@@ -71,7 +81,9 @@ const Assets: React.FC = () => {
             <RefreshCw className="w-4 h-4 mr-2" />
             Refresh
           </button>
-          <button className="flex items-center px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+          <button 
+            onClick={() => setShowUploadModal(true)}
+            className="flex items-center px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
             <Upload className="w-4 h-4 mr-2" />
             Upload Asset
           </button>
@@ -167,7 +179,9 @@ const Assets: React.FC = () => {
                     <span className="text-sm text-gray-500">
                       Uploaded {new Date(asset.uploadDateTime).toLocaleDateString()}
                     </span>
-                    <button className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded">
+                    <button 
+                      onClick={() => handlePreviewClick(asset)}
+                      className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded">
                       Preview
                     </button>
                   </div>
@@ -177,6 +191,21 @@ const Assets: React.FC = () => {
           ))
         )}
       </div>
+
+      <UploadModal 
+        isOpen={showUploadModal}
+        onClose={() => setShowUploadModal(false)}
+        onUploadComplete={fetchAssets}
+      />
+      
+      {selectedAsset && (
+        <PreviewModal
+          isOpen={showPreviewModal}
+          onClose={() => setShowPreviewModal(false)}
+          asset={selectedAsset}
+        />
+      )}
+
     </div>
   );
 };

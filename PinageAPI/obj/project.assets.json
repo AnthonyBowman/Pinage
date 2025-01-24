@@ -4683,11 +4683,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Users\\brian\\source\\repos\\PinageAPI\\PinageAPI.csproj",
+      "projectUniqueName": "D:\\Users\\brian\\Source\\Repos\\Pinage\\PinageAPI\\PinageAPI.csproj",
       "projectName": "PinageAPI",
-      "projectPath": "d:\\Users\\brian\\source\\repos\\PinageAPI\\PinageAPI.csproj",
+      "projectPath": "D:\\Users\\brian\\Source\\Repos\\Pinage\\PinageAPI\\PinageAPI.csproj",
       "packagesPath": "C:\\Users\\brian\\.nuget\\packages\\",
-      "outputPath": "d:\\Users\\brian\\source\\repos\\PinageAPI\\obj\\",
+      "outputPath": "D:\\Users\\brian\\Source\\Repos\\Pinage\\PinageAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "d:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

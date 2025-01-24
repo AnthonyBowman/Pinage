@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using PinageAPI.Infrastructure;
 using PinageAPI.Infrastructure.Repositories;
 using PinageAPI.Models.Domain;
+using PinageAPI.Services;
 
 namespace PinageAPI.Controllers
 {
@@ -9,11 +11,76 @@ namespace PinageAPI.Controllers
     public class AssetsController : ControllerBase
     {
         private readonly IRepository<Asset> _assetRepository;
+        private readonly IFileStorageService _fileStorageService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AssetsController(IRepository<Asset> assetRepository)
+        public AssetsController(
+            IRepository<Asset> assetRepository,
+            IFileStorageService fileStorageService,
+            IUnitOfWork unitOfWork)
         {
             _assetRepository = assetRepository;
+            _fileStorageService = fileStorageService;
+            _unitOfWork = unitOfWork;
         }
+
+        [HttpPost("upload")]
+        public async Task<ActionResult<Asset>> UploadAsset(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded");
+            }
+
+            try
+            {
+                // Save file and get storage details
+                var (fileName, contentUrl) = await _fileStorageService.SaveFileAsync(file);
+                var fileHash = _fileStorageService.GetFileHash(file);
+
+                // Determine file type and format
+                var fileType = DetermineFileType(file.ContentType);
+                var fileFormat = Path.GetExtension(file.FileName).TrimStart('.').ToLower();
+
+                // Create asset record
+                var asset = new Asset
+                {
+                    FileName = Path.GetFileName(file.FileName),
+                    FileType = fileType,
+                    FileFormat = fileFormat,
+                    FileSize = file.Length,
+                    FileHash = fileHash,
+                    UploadedBy = 1, // TODO: Get from authentication
+                    UploadDateTime = DateTime.UtcNow,
+                    Duration = null, // TODO: Calculate for video/audio
+                    Active = true,
+                    ContentUrl = contentUrl
+                };
+
+                await _assetRepository.AddAsync(asset);
+                await _unitOfWork.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetAsset), new { id = asset.AssetId }, asset);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                return StatusCode(500, "Error uploading file");
+            }
+        }
+
+        private string DetermineFileType(string contentType)
+        {
+            if (contentType.StartsWith("video/"))
+                return "video";
+            else if (contentType.StartsWith("image/"))
+                return "image";
+            else if (contentType.StartsWith("audio/"))
+                return "audio";
+            else
+                return "other";
+        }
+
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Asset>>> GetAssets()

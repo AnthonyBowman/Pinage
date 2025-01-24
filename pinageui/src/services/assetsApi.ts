@@ -12,9 +12,11 @@ export const assetsApi = {
     return response.data;
   },
 
-  createAsset: async (formData: FormData): Promise<Asset> => {
-    const response = await api.post('/assets', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+  uploadAsset: async (formData: FormData): Promise<Asset> => {
+    const response = await api.post('/assets/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
     return response.data;
   },
