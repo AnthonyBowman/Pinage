@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PinageAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+353b0ca0d63947988ff6261969a466a83dd63aa3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+90dc14463dede0e87bf6ca83eb8b5c36e07fc454")]
 [assembly: System.Reflection.AssemblyProductAttribute("PinageAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PinageAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
