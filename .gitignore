@@ -401,3 +401,63 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# react - from Claude
+
+# Build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Build files
+*.dll
+*.exe
+*.pdb
+*.cache
+*.vs
+*.user
+*.csproj.user
+
+# Generated files
+*.map
+*.manifest
+*build/
+build/
+
+# Temporary & IDE files
+.vs/
+*.suo
+*._*
+*.log
+
+# Generated static files
+**/*.d.ts
+wwwroot/static/
+wwwroot/dist/
+
+# .NET build outputs
+
+**/bin/Debug/net8.0/
+**/bin/Release/net8.0/
+**/obj/Debug/net8.0/
+**/obj/Release/net8.0/
+**/Debug/net8.0/
+**/Release/net8.0/
+
+# VS and .NET specific
+*.suo
+*.dll
+*.pdb
+*.exe
+*.cache
+*.vs
+*.user
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
+*.MvcApplicationPartsAssemblyInfo.cs
+*ReferenceAssembly.cs
+*\ref\*
+*\refint\*
